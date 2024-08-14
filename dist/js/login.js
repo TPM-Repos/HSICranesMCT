@@ -229,6 +229,7 @@ function loginSuccess(result, username) {
 		)}`
 		return
 	}
+	// 
 
 	// Redirect to default location
 	window.location.href = LOGIN_REDIRECT_URL

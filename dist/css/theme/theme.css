@@ -210,8 +210,9 @@ hr {
 
 /* Logout Buttons (Menu List / Sidebar) */
 .content-nav .logout-button {
-	width: 100%;
+	width: calc(100% - 3em);
 	padding: 1em 1.5em;
+	margin-left: 1.5em;
 	background-color: rgba(255, 255, 255, 0.1);
 	color: #fff;
 }
@@ -222,7 +223,7 @@ hr {
 
 .user-actions {
 	display: none;
-	padding: 1.5em;
+	padding: 1.5em 0;
 	margin-top: auto;
 	background-color: rgba(255, 255, 255, 0.025);
 }
@@ -249,6 +250,15 @@ hr {
 	width: 1em;
 	height: 1em;
 	margin-right: 0.5em;
+}
+
+.username {
+    max-width: 226px;
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
 }
 
 /* Mobile Menu Toggle */
@@ -608,3 +618,4 @@ button.nav-overlay:focus {
 		background: rgba(0, 0, 0, 0.1);
 	}
 }
+

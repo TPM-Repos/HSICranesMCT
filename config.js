@@ -179,6 +179,7 @@ version: "1.2.9",
         loginForm: {
             background: "white",
             padding: "1em",
+			textColor: "black",
         },
         button: {
 			// not recommended to use %
@@ -196,3 +197,4 @@ version: "1.2.9",
         inputRadius: "10pt",
     },
 }
+

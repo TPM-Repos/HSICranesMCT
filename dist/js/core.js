@@ -1,4 +1,4 @@
-// Version 1.2.1
+// Version 1.2.2
 /**
  * SHARED CORE PAGE FUNCTIONS
  */
@@ -247,7 +247,26 @@ function showUsername() {
 
 	usernameOutput.classList.add("is-shown")
 	document.querySelector("#active-username .username").innerHTML = username
+
+	adjustFontSize()
 }
+
+function adjustFontSize() {
+    const element = document.querySelector('.username');
+    let fontSize = 20;
+    element.style.fontSize = fontSize + 'px';
+
+    while (element.scrollWidth > element.clientWidth && fontSize > 10) {
+		consoleDebug(fontSize);
+		
+        fontSize -= 1;
+        element.style.fontSize = fontSize + 'px';
+    }
+}
+
+// run adjustFontSize() on load or zoom
+window.addEventListener('load', adjustFontSize);
+window.addEventListener('resize', adjustFontSize);
 
 /**
  * Detect touch devices - alter UI accordingly.
@@ -370,3 +389,4 @@ function passwordReset() {
 		passwordResetLink.href = config.accountManagement.resetPassword
 	}
 }
+
