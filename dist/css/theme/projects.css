@@ -99,7 +99,7 @@
 	margin: auto 0 0 0;
 	border-radius: var(--button-radius, 100em);
 	border: none;
-	background-color: var(--color-neutral);
+	background-color: var(--button-color, --color-neutral);
 	color: #fff;
 	cursor: pointer;
 	font-size: 1em;
