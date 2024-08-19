@@ -105,11 +105,11 @@ const config = {
             icon: "history",
             href: "history.html",
         },
-        // {
-        //     title: "Reset Password",
-        //     icon: "reset",
-        //     href: "query?DWConstantForm=PasswordReset",
-        // },
+        {
+            title: "Reset Password",
+            icon: "reset",
+            href: "query?run=AccountManagement&DWMacroNavigate=ResetPassword",
+        },
     ],
     images: {
         // You may use a different (or same) company logo for the login and sidebar
