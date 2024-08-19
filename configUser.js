@@ -167,6 +167,7 @@ const config = {
             background: "#161616",
             width: "18em",
             logoPadding: "1em",
+            textColor: "white",
         },
         loginForm: {
             background: "rgb(47,46,46)",
