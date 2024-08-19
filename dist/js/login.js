@@ -65,7 +65,7 @@ let client;
 
 	if (forgotLink) {
 		if (config.accountManagement.forgotPassword) {
-			forgotLink.href = config.accountManagement.forgotPassword
+			forgotLink.href = window.location.href + config.accountManagement.forgotPassword
 			forgotLink.classList.remove("hidden")
 		}
 	}
@@ -190,7 +190,7 @@ function handleLoginSSO() {
 }
 
 function createAccount() {
-	window.location.href = `${window.location.origin}/${config.accountManagement.createAccount}`
+	window.location.href = `${window.location.href}/${config.accountManagement.createAccount}`
 }
 
 function removeSkeleton() {
@@ -335,7 +335,7 @@ async function checkExistingLogin() {
 		await client.getProjects(storedGroupAlias, "$top=1")
 
 		// Redirect to initial location
-		window.location.replace(LOGIN_REDIRECT_URL)
+		window.location.replace(config.folder & LOGIN_REDIRECT_URL)
 	} catch (error) {
 		handleGenericError(error)
 	}
