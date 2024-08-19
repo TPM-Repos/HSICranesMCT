@@ -110,13 +110,13 @@ function redirectToLogin(notice, state, noReturnUrl) {
 
 	// Redirect to login
 	if (noReturnUrl || !config.loginReturnUrls) {
-		window.location.replace(config.folder & "index.html")
+		window.location.replace(config.folder + "/index.html")
 		return
 	}
 
 	// Redirect to login, with return url to restore position
 	const currentLocation = window.location.pathname + window.location.search
-	window.location.replace(config.folder & 
+	window.location.replace(config.folder + 
 		`index.html?returnUrl=${encodeURIComponent(
 			currentLocation.substring(1),
 		)}`,
@@ -145,7 +145,7 @@ function logoutRedirect() {
 	localStorage.clear()
 
 	// Redirect
-	window.location.replace(config.folder & config.logout.redirectUrl)
+	window.location.replace(config.logout.redirectUrl)
 }
 
 /**
