@@ -285,6 +285,7 @@ button:disabled:hover {
 }
 
 #forgot-link {
+	color: #00ccff;
 	/* top: -0.5em; */
 	/* position: relative; */
 }
