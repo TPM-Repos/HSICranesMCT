@@ -16,7 +16,7 @@ const config = {
     // (Optional) Enter custom redirect URLs for login/logout and Project/DriveApp close/cancel
     folder: "dev",
     login: {
-        redirectUrl: "run.html?project=Jib Cranes",
+        redirectUrl: "projects.html",
         // Set this to left, center, or right to position the login form on the page
         columnLocation: "center",
     },
