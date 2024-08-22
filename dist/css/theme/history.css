@@ -196,7 +196,7 @@ button {
 /* List Item */
 .history-item {
 	position: relative;
-	background-color: #fff;
+	background-color: #161616;
 	border-radius: var(--inputRadius);
 	box-shadow: var(--shadow-light);
 	margin-bottom: 0.75em;
@@ -218,7 +218,7 @@ button {
 	justify-content: flex-start;
 	width: 100%;
 	background-color: transparent;
-	color: #000;
+	color: #fff;
 	padding: 0.5em;
 	margin: 0;
 	border-radius: var(--inputRadius);
@@ -303,8 +303,8 @@ button {
 	filter: brightness(110%);
 }
 .history-item .item-details:hover .view-action {
-	background-color: var(--color-neutral);
-	color: #fff;
+	background-color: var(--button-color);
+	color: white;
 }
 
 .history-item .expand-button {
@@ -515,7 +515,7 @@ button {
 	}
 	.history-controls.is-stuck {
 		box-shadow: var(--shadow-light);
-		background-color: #fff;
+		background-color: #1c1c1c;
 	}
 
 	@supports (backdrop-filter: blur) {

@@ -158,7 +158,7 @@ const config = {
         },
         color: {
             primary: "#FCCC0E",
-            secondary: "rgb(47,46,46)",
+            secondary: "#161616",
             background: "#1c1c1c",
             icon: "#FCCC0E",
             focus: "#FCCC0E",
@@ -170,7 +170,7 @@ const config = {
             textColor: "white",
         },
         loginForm: {
-            background: "rgb(47,46,46)",
+            background: "#161616",
             padding: "1em",
         },
         button: {
@@ -181,7 +181,7 @@ const config = {
             width: "438px"
         },
         projectCard: {
-            background: "#1c1c1c",
+            background: "#161616",
             margin: "16px",
         },
         inputRadius: "0",
