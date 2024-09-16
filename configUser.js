@@ -4,7 +4,7 @@ const config = {
     version: "1.2.9",
     // the full path the site running the DriveWorks Live API
     // serverUrl: "https://dw21api.yourdomain.com",
-    serverUrl: "https://dw21api.hsicrane.com",
+    serverUrl: "https://22.dwapi.hsicrane.com",
     // The default alias for the DriveWorks Group
     // This is a custom string that must match the name in the ConfigUser.xml file
     groupAlias: "development",
@@ -14,7 +14,7 @@ const config = {
     // Disable the ping by setting to 0
     specificationPingInterval: 0,
     // (Optional) Enter custom redirect URLs for login/logout and Project/DriveApp close/cancel
-    folder: "dev",
+    folder: "",
     login: {
         redirectUrl: "projects.html",
         // Set this to left, center, or right to position the login form on the page
@@ -51,7 +51,7 @@ const config = {
         defaultGroupAlias: "developmentGuest",
         defaultProjectName: "",
         autoLogin: true,
-        requireNewSession: true,
+        requireNewSession: false,
         requireExactAlias: false,
     },
     copyright: {
