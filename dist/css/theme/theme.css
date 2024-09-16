@@ -359,8 +359,8 @@ button.nav-overlay:focus {
 
 /* Status Tags */
 .status-tag {
-	background-color: #ddd;
-	color: var(--color-primary);
+	background-color: var(--color-primary);
+	color: black;
 }
 
 .status-tag.status-save,
