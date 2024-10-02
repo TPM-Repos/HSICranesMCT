@@ -1,0 +1,78 @@
+header {
+	background: var(--Tertiary, #161616);
+	width: 100%;
+	min-height: var(--header-height);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 1em;
+
+	& .top-row,
+	& .bottom-row {
+		min-width: fit-content;
+		width: 100%;
+		max-width: var(--Form-Width, 1340px);
+		display: flex;
+	}
+
+	& a {
+		all: unset;
+		cursor: pointer;
+
+		&:hover {
+			color: var(--Accent, #fccc0e);
+		}
+	}
+
+	& .top-row {
+		height: var(--top-row-height);
+		padding: 0px 5.71px 1px 0px;
+		align-items: center;
+		justify-content: space-between;
+		border-bottom: 1px solid var(--Primary, #fff);
+
+		& .logo {
+			width: 438.55px;
+			height: 67.94px;
+			max-width: 438.564px;
+
+			& img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		& .account {
+			flex-direction: column;
+		}
+	}
+
+	& .bottom-row {
+		display: flex;
+		max-width: var(--Form-Width, 1340px);
+		padding: 0px 0px 1px 0px;
+		align-items: center;
+
+		& .nav-item {
+			display: flex;
+			padding: 25px 15px;
+			justify-content: center;
+			align-items: center;
+			align-self: stretch;
+		}
+	}
+}
+
+.accent-text {
+	color: var(--Accent, #fccc0e);
+}
+
+.account {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+}
+
+#products-menu {
+    display: none;
+}
