@@ -21,6 +21,8 @@ const copyright = document.querySelector(".login-copyright")
 const usernameLabel = document.querySelector("#username-label")
 const usernameInput = document.querySelector("#login-username")
 const loginDivider = document.querySelector(".login-divider")
+const loginUsername = document.getElementById("login-username")
+const loginPassword = document.getElementById("login-password")
 
 // Error Messages
 const genericErrorMessage = "Unable to login."
@@ -47,6 +49,10 @@ let client;
 
 	loginForm.addEventListener("submit", handleLoginForm)
 
+	if (loginPassword && config.passwordRequired) {
+		loginPassword.required = true
+	}
+
 	if (loginSSOButton) {
 		if (config.allowSingleSignOn) {
 			loginSSOButton.addEventListener("click", handleLoginSSO)
@@ -65,7 +71,7 @@ let client;
 
 	if (forgotLink) {
 		if (config.accountManagement.forgotPassword) {
-			forgotLink.href = config.accountManagement.forgotPassword
+			forgotLink.href = `query?alias=${config.guestLogin.alias}&${config.accountManagement.forgotPassword}`
 			forgotLink.classList.remove("hidden")
 		}
 	}
@@ -143,10 +149,8 @@ async function login(type) {
 		// Start Session
 		if (type === "default" || type === null || type === "") {
 			// Get credentials
-			inputUsername =
-				document.getElementById("login-username").value
-			const inputPassword =
-				document.getElementById("login-password").value
+			inputUsername = loginUsername.value
+			const inputPassword = loginPassword.value
 			const userCredentials = {
 				username: inputUsername,
 				password: inputPassword,
@@ -190,7 +194,7 @@ function handleLoginSSO() {
 }
 
 function createAccount() {
-	window.location.href = config.accountManagement.createAccount
+	window.location.href = `query?alias=${config.guestLogin.alias}&${config.accountManagement.createAccount}`
 }
 
 function removeSkeleton() {

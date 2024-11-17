@@ -94,7 +94,7 @@ button {
 
 .history-controls .date-toggle {
 	min-width: 14em;
-	padding-right: 0;
+	/* padding-right: 0; */
 }
 .history-controls .date-toggle span {
 	text-transform: capitalize;
@@ -304,7 +304,7 @@ button {
 }
 .history-item .item-details:hover .view-action {
 	background-color: var(--button-color);
-	color: white;
+	color: black;
 }
 
 .history-item .expand-button {

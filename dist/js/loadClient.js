@@ -1,5 +1,14 @@
+const script = document.createElement("script")
+checkConfig()
+
+function checkConfig() {
+    if (typeof config !== 'undefined' && config.serverUrl) {
+        loadClient()
+    } else {
+        setTimeout(checkConfig, 50)
+    }
+}
 function loadClient() {
-    const script = document.createElement("script")
     script.src =
         config.serverUrl + "/DriveWorksLiveIntegrationClient.min.js"
     script.onerror = () => dwClientLoadError()

@@ -61,6 +61,12 @@ if (QUERY_DRIVE_APP_ALIAS) {
  * Start page functions.
  */
 function startPageFunctions() {
+	// Don't Allow Guest's to change the password
+	if (isGuest() && isResetPassword()) {
+		renderError("As a Guest you don't have access to this page", "error")
+		return
+	}
+
 	setCustomClientErrorHandler()
 
 	// Show confirmation dialog before logout
@@ -121,7 +127,7 @@ function renderError(message, error = null) {
 	// Redirect to configured cancel location
 	setTimeout(() => {
 		redirectOnSpecAction("cancel")
-	}, 2000)
+	}, 3000)
 }
 
 /**
@@ -784,23 +790,34 @@ function existingSpecificationCancelled() {
 
 /**
  * Redirect On Close
+ * If Guest, redirect to logout
+ * If ResetPassword, redirect to login
+ * If close, redirect to config.redirectOnClose
+ * If cancel, redirect to config.redirectOnCancel
  */
 function redirectOnSpecAction(action = "close") {
-	const username = localStorage.getItem("sessionUsername")
-	const sessionAlias = localStorage.getItem("sessionAlias")
-	const isResetPassword = window.location.href.includes("ResetPassword")
-	if (username === "Guest" || sessionAlias === config.query.defaultGroupAlias || isResetPassword) {
+	if (
+		isGuest() || isResetPassword()
+	) {
 		page = "logout"
 	} else if (action === "close") {
 		page = currentConfig.redirectOnClose
 	} else if (action === "cancel") {
 		page = currentConfig.redirectOnCancel
 	}
-	if(page === "logout") {
+	if (page === "logout") {
 		handleLogout()
 	} else {
 		window.location.href = `${page}?specification=${rootSpecificationId}`
 	}
+}
+
+/**
+ * Is the current page "Reset Password"?
+ * @returns {boolean}
+ */
+function isResetPassword() {
+	return ( URL_QUERY.get("DWMacroNavigate") === "ResetPassword" )
 }
 
 /**

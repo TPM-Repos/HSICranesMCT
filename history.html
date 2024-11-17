@@ -9,8 +9,8 @@
 		<title>History</title>
 
 		<!-- Scripts -->
-		<script src="dist/js/loadClient.js" defer></script>
-		<script src="configUser.js" defer onload="loadClient()"></script>
+		<script src="configUser.js" async></script>
+		<script src="dist/js/loadClient.js" async></script>
 		<script src="dist/js/sidebar.js" defer></script>
 		<script src="dist/js/ui.js" defer></script>
 		<script src="dist/js/core.js" defer></script>
@@ -122,13 +122,26 @@
 								class="date-toggle"
 								title="Reverse Date Order"
 							>
-								<svg class="icon calendar">
+							<svg class="icon calendar">
 									<use xlink:href="dist/icons.svg#calendar" />
 								</svg>
 								<svg data-arrow class="icon arrow">
 									<use xlink:href="dist/icons.svg#arrow-up" />
 								</svg>
 								Date (<span>Newest First</span>)
+								<svg class="icon loading">
+									<use xlink:href="dist/icons.svg#loading" />
+								</svg>
+							</button>
+							<button
+								id="running-spec-toggle"
+								class="date-toggle"
+								title="Toggle Running Specification"
+							>
+								<svg data-arrow class="icon eye">
+									<use xlink:href="dist/icons.svg#eye-open" />
+								</svg>
+								<span>Show Running Specifications</span>
 								<svg class="icon loading">
 									<use xlink:href="dist/icons.svg#loading" />
 								</svg>

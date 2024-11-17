@@ -1,5 +1,5 @@
 header {
-	background: var(--Tertiary, #161616);
+	background: var(--color-secondary, #161616);
 	width: 100%;
 	min-height: var(--header-height);
 	display: flex;
@@ -16,11 +16,11 @@ header {
 	}
 
 	& a {
-		all: unset;
-		cursor: pointer;
+		text-decoration: none;
+		color: white;
 
 		&:hover {
-			color: var(--Accent, #fccc0e);
+			color: var(--color-primary);
 		}
 	}
 
@@ -29,7 +29,7 @@ header {
 		padding: 0px 5.71px 1px 0px;
 		align-items: center;
 		justify-content: space-between;
-		border-bottom: 1px solid var(--Primary, #fff);
+		border-bottom: 1px solid white;
 
 		& .logo {
 			width: 438.55px;
@@ -64,7 +64,7 @@ header {
 }
 
 .accent-text {
-	color: var(--Accent, #fccc0e);
+	color: var(--color-primary, #fccc0e);
 }
 
 .account {
@@ -73,6 +73,7 @@ header {
 	gap: 10px;
 }
 
-#products-menu {
+#products-menu,
+#resources-menu {
     display: none;
 }

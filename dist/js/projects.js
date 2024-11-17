@@ -38,6 +38,10 @@ async function startPageFunctions() {
  * @param {Object} projects - ProjectData object.
  */
 function renderProjects(projects) {
+
+		
+
+
 	// Clear loading state, show list
 	projectsList.innerHTML = ""
 	projectsList.style.opacity = ""
@@ -91,6 +95,8 @@ function renderProjects(projects) {
 		// Animate entrance (hidden by default)
 		item.classList.add("animate")
 	}
+
+	console.log("Filtered projects:",projectsList);
 }
 
 /**

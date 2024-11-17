@@ -4,13 +4,6 @@
 */
 
 :root {
-	--header-height: 178px;
-	--top-row-height: 108px;
-	--form-width: 1340px;
-
-	--tertiary: #161616;
-	--primary: #fff;
-	--accent: #fccc0e;
 }
 
 body {
@@ -125,6 +118,15 @@ button.action-transition {
 /* Error */
 .run-error {
 	text-align: center;
+
+	& h3 {
+		color: black;
+	}
+}
+
+/* if body contaiins an element with class "run-error" make the body background --background-color */
+body.run-error {
+	background-color: var(--background-color);
 }
 
 /* Custom Dialog */

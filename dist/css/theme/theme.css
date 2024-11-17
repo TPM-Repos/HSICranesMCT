@@ -1,33 +1,84 @@
-/* Version 1.2.7 */
 /**
 * GLOBAL THEME
 */
 
 :root {
-	--row-width: 95em;
-	--sidebar-width: 20em;
+    /* Brand Colors */
+	--color-primary: #FCCC0E;
+    --color-secondary: #161616;
+    --color-background: #1c1c1c;
+	
+	/* Text Styles */
+    --text-color: #D1D1D1;
+    --text-font: Roboto;
+    --text-size: 16px;
+    --text-lineHeight: 1.8;
+    
+    --heading-color: white;
+	--heading-font: Inter;
+    --heading-size: 3.4rem;
+    --heading-weight: 500;
+    --heading-lineHeight: 1.2;
 
-	--screen-md: 40em;
-	--screen-lg: 60em;
-	--screen-xl: 80em;
+    --caption-color: white;
+    --caption-font: Inter;
+    --caption-size: 1rem;
+    --caption-weight: 400;
+	
+	/* Buttons */
+    --button-radius: 0;
+    --button-color: var(--color-primary);
+
+	/* Sidebar */
+	--sidebar-background: var(--color-secondary);
+    --sidebar-textColor: white;
+    --sidebar-logoPadding: 1em;
+    --sidebar-width: 18em;
+
+	/* Project Card */
+    --projectCard-background: var(--color-secondary);
+    --projectCard-margin: 16px;
+
+
+	/* Semantic Colors */
+    --color-icon: var(--color-primary);
+    --color-focus: var(--color-primary);
+    
+	--loginForm-background: var(--color-secondary);
+
+	--accent-primary: #0053a0;
+	--accent-secondary: #e2383f;
 
 	--color-neutral: #4299e1;
 	--color-error: #e53e3e;
 	--color-warning: #ed8936;
 	--color-success: #48bb78;
 	--color-focus: #347ebb;
-
+	
+	/* Atomic Colors */
 	--color-blue: #4299e1;
 	--color-green: #48bb78;
 	--color-orange: #ed8936;
 	--color-red: #e53e3e;
 
-	--accent-primary: #0053a0;
-	--accent-secondary: #e2383f;
-	--color-primary: #3d4b60;
+	/* Sizing */
+	--form-width: 1340px;
+	--sidebar-width: 20em;
+	--header-height: 178px;
+    --loginForm-padding: 1em;
+    --logo-width: 438px;
+	
+	--row-width: 95em;
+	--top-row-height: 108px;
 
-	--inputRadius: 0.5em;
+	--screen-md: 40em;
+	--screen-lg: 60em;
+	--screen-xl: 80em;
+
+	/* Other */
 	--shadow-light: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
+    --inputRadius: 0;
+	--background-image: url(../../../dist/img/HSI-Background.webp);
 }
 
 body {

@@ -14,7 +14,6 @@ const config = {
     // Disable the ping by setting to 0
     specificationPingInterval: 0,
     // (Optional) Enter custom redirect URLs for login/logout and Project/DriveApp close/cancel
-    folder: "",
     login: {
         redirectUrl: "projects.html",
         // Set this to left, center, or right to position the login form on the page
@@ -66,6 +65,7 @@ const config = {
     // pageName | siteName
     siteName: "HSI",
     usernameType: "Email Address",
+    passwordRequired: false,
     loginReturnUrls: true, // Toggle appending return urls to restore the previous location when redirected to the login form
     locale: "en-US", // Set the default locale for displaying dates and numbers
     dateFormat: {
@@ -84,8 +84,8 @@ const config = {
 		alias: "developmentGuest",
 	},
     accountManagement: {
-		createAccount: "query?alias=developmentGuest&run=AccountManagement&DWMacroNavigate=CreateAccount",
-		forgotPassword: "query?alias=developmentGuest&run=AccountManagement&DWMacroNavigate=ForgotPassword",
+		createAccount: "run=AccountManagement&DWMacroNavigate=CreateAccount",
+		forgotPassword: "run=AccountManagement&DWMacroNavigate=ForgotPassword",
 		resetPassword:
 			"query?alias=development&run=AccountManagement&DWMacroNavigate=ResetPassword",
 	},
@@ -104,86 +104,9 @@ const config = {
             title: "History",
             icon: "history",
             href: "history.html",
-        },
-        {
-            title: "Reset Password",
-            icon: "reset",
-            href: "query?run=AccountManagement&DWMacroNavigate=ResetPassword",
-        },
+        }
     ],
     images: {
-        // You may use a different (or same) company logo for the login and sidebar
-        // You may wish to do this due to the color of the logo and contrast with the background color
-        // Here is an example with svgs and with pngs
-        // login: "dist/img/logo-dark.svg",
-        // sidebar: "dist/img/logo-light.svg",
-        login: "dist/img/logos/HSI-LOGO-WHITE.webp",
-        sidebar: "dist/img/logos/HSI-LOGO-WHITE.webp",
-        // By default the login screen will show a static cover image
-        // You can change it to a different image here.
         loginCover: "dist/img/HSI-Background.webp",
-        // You can use a series of images instead of a static cover image by enabling the carousel
-        // These will fade into the next image every 'interval' seconds
-        // You may use as many as you want but the more you use the longer the page will take to load
-        carousel: {
-            enabled: false,
-            interval: 7.5,
-            images: [
-                "dist/img/carousel-1.jpg",
-                "dist/img/carousel-2.jpg",
-                "dist/img/carousel-3.jpg",
-                "dist/img/carousel-4.jpg",
-            ],
-        }
-    },
-    styles: {
-        text: {
-            font: "Roboto",
-            size: "16px",
-            color: "#D1D1D1",
-            lineHeight: "1.8",
-        },
-        heading: {
-            font: "Inter",
-            size: "3.4rem",
-            color: "white",
-            weight: "500",
-            lineHeight: "1.2",
-        },
-        caption: {
-            font: "Inter",
-            size: "1rem",
-            color: "white",
-            weight: "400",
-        },
-        color: {
-            primary: "#FCCC0E",
-            secondary: "#161616",
-            background: "#1c1c1c",
-            icon: "#FCCC0E",
-            focus: "#FCCC0E",
-        },
-        sidebar: {
-            background: "#161616",
-            width: "18em",
-            logoPadding: "1em",
-            textColor: "white",
-        },
-        loginForm: {
-            background: "#161616",
-            padding: "1em",
-        },
-        button: {
-            radius: "0",
-            color: "#FCCC0E",
-        },
-        logo: {
-            width: "438px"
-        },
-        projectCard: {
-            background: "#161616",
-            margin: "16px",
-        },
-        inputRadius: "0",
     }
 };
