@@ -2,7 +2,7 @@ header {
 	background: var(--Tertiary, #161616);
 	width: 100%;
 	min-height: var(--header-height);
-	display: flex;
+	display: none;
 	flex-direction: column;
 	align-items: center;
 	padding: 0 1em;
@@ -75,4 +75,10 @@ header {
 
 #products-menu {
     display: none;
+}
+
+@media screen and (min-width: 60em) {
+	header {
+		display:flex;
+	}
 }
