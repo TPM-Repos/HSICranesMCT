@@ -177,10 +177,15 @@ const config = {
         loginForm: {
             background: "#161616",
             padding: "1em",
+			textColor: "black",
         },
         button: {
             radius: "0",
             color: "#FCCC0E",
+            textColor: "white",
+			colorHover: "#ffe00f",
+			textColorHover: "white",
+			border: "none",
         },
         logo: {
             width: "438px"
