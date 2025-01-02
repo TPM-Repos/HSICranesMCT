@@ -46,6 +46,17 @@ const config = {
             styles: false,
         },
     },
+    projects: {
+        toHide: [],
+        toAdd: [
+            { 
+                alias: "700 Series",
+                description: "",
+                image: "dist/img/logos/HSI-LOGO-WHITE.webp",
+                link: "run.html?project=JibCranes&DWMacroQuickLaunch=700Series",
+            },
+        ],
+    },
     // (Optional) Configure 'Details' view
     details: {
         updateInterval: 5, // Interval to refresh content - in seconds
