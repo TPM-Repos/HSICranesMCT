@@ -91,7 +91,7 @@ const config = {
 	},
     sidebarLinks: [
         {
-            title: "Projects",
+            title: "Products",
             icon: "projects",
             href: "projects.html",
         },
@@ -101,7 +101,7 @@ const config = {
         //     href: "drive-apps.html",
         // },
         {
-            title: "History",
+            title: "Your Quotes",
             icon: "history",
             href: "history.html",
         },
