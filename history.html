@@ -5,10 +5,22 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-
+		
+		<!-- PWA Meta Tags -->
+		<meta name="theme-color" content="#FCCC0E"/>
+		<meta name="description" content="HSI Cranes Machine Configuration Tool"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+		<meta name="apple-mobile-web-app-title" content="HSI MCT"/>
+		
 		<title>Your Quotes</title>
 
+		<!-- PWA Assets -->
+		<link rel="manifest" href="site.webmanifest"/>
+		<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+
 		<!-- Scripts -->
+		<script src="dist/js/pwa.js" defer></script>
 		<script src="dist/js/loadClient.js" defer></script>
 		<script src="configUser.js" defer onload="loadClient()"></script>
 		<script src="dist/js/sidebar.js" defer></script>

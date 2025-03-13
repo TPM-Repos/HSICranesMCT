@@ -1,1 +1,41 @@
-{"name":"","short_name":"","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone"}
+{
+  "name": "HSI Cranes MCT",
+  "short_name": "HSI MCT",
+  "description": "HSI Cranes Machine Configuration Tool",
+  "start_url": "./index.html",
+  "id": "./index.html",
+  "icons": [
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Products",
+      "url": "./projects.html",
+      "description": "View all products",
+      "icons": [{ "src": "dist/icons.svg#projects", "sizes": "any" }]
+    },
+    {
+      "name": "Your Quotes",
+      "url": "./history.html", 
+      "description": "View your quotes",
+      "icons": [{ "src": "dist/icons.svg#history", "sizes": "any" }]
+    }
+  ],
+  "theme_color": "#FCCC0E",
+  "background_color": "#161616",
+  "display": "standalone",
+  "orientation": "any",
+  "categories": ["business", "productivity"],
+  "prefer_related_applications": false
+}
