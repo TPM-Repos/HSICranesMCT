@@ -85,7 +85,7 @@ function getStoredQuery(top, skip) {
 	query += `&$orderby=DateEdited ${filterDateOrder}`
 
 	// Filter out running Specifications (shouldn't be shown/accessible)
-	query += "&$filter=StateType ne 'Running'"
+	query += "&$filter=StateType ne 'Running' and isArchived eq false"
 
 	// Get name filter
 	const filterName = localStorage.getItem(storageKeyName)
@@ -317,7 +317,7 @@ async function filterSpecificationsByName(name) {
 		// Create OData filter (contains name)
 		const query = `$filter=contains(tolower(name), tolower('${escapeStringForOData(
 			name,
-		)}')) and StateType ne 'Running'&$orderby=DateEdited ${currentDateOrder}&$top=${defaultLimit}`
+		)}')) and StateType ne 'Running' and isArchived eq false&$orderby=DateEdited ${currentDateOrder}&$top=${defaultLimit}`
 
 		// Reset stage
 		resetFilterPosition()
