@@ -7,7 +7,7 @@ const config = {
     serverUrl: "https://22.dwapi.hsicrane.com",
     // The default alias for the DriveWorks Group
     // This is a custom string that must match the name in the ConfigUser.xml file
-    groupAlias: "development",
+    groupAlias: "testing",
     // (Optional) Configure ping & update intervals - in seconds
     // A Specification will timeout after a configured period of inactivity (see DriveWorksConfigUser.xml).
     // This function prevents a Specification timing out as long as the page is in view.
@@ -66,7 +66,6 @@ const config = {
     // Enter a default Group Alias and/or Project name to be used (when none are passed in the query string)
     // Choose how sessions are handled
     query: {
-        defaultGroupAlias: "developmentGuest",
         defaultProjectName: "",
         autoLogin: true,
         requireNewSession: false,
@@ -79,7 +78,7 @@ const config = {
     },
     // Add a watermark over pages in order to indicate that the site is a development site
     // comment out or set to "" to disable
-    watermark: "Development Site",
+    watermark: "Testing Site",
     // Set the title of the site, this will be displayed in the browser tab
     // pageName | siteName
     siteName: "HSI",
