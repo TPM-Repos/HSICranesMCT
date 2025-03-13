@@ -66,6 +66,7 @@ const config = {
     // Enter a default Group Alias and/or Project name to be used (when none are passed in the query string)
     // Choose how sessions are handled
     query: {
+        defaultGroupAlias: "testingGuest",
         defaultProjectName: "",
         autoLogin: true,
         requireNewSession: false,
