@@ -7,7 +7,8 @@ const config = {
     serverUrl: "https://22.dwapi.hsicrane.com",
     // The default alias for the DriveWorks Group
     // This is a custom string that must match the name in the ConfigUser.xml file
-    groupAlias: "testing",
+    groupAlias: "production",
+    guestAlias: "productionGuest",
     // (Optional) Configure ping & update intervals - in seconds
     // A Specification will timeout after a configured period of inactivity (see DriveWorksConfigUser.xml).
     // This function prevents a Specification timing out as long as the page is in view.
@@ -50,10 +51,11 @@ const config = {
         toHide: [],
         toAdd: [
             { 
-                alias: "700 Series",
+                alias: "Workstation Jib Cranes",
                 description: "",
-                image: "dist/img/logos/HSI-LOGO-WHITE.webp",
-                link: "run.html?project=JibCranes&DWMacroQuickLaunch=700Series",
+                //image: "dist/img/logos/HSI-LOGO-WHITE.webp", 
+                image: "dist/img/projects/750F.png",
+                link: "run.html?project=Jib Cranes&DWMacroQuickLaunch=700Series",
             },
         ],
     },
@@ -66,7 +68,7 @@ const config = {
     // Enter a default Group Alias and/or Project name to be used (when none are passed in the query string)
     // Choose how sessions are handled
     query: {
-        defaultGroupAlias: "testingGuest",
+        defaultGroupAlias: "productionGuest",
         defaultProjectName: "",
         autoLogin: true,
         requireNewSession: false,
@@ -79,7 +81,7 @@ const config = {
     },
     // Add a watermark over pages in order to indicate that the site is a development site
     // comment out or set to "" to disable
-    watermark: "Testing Site",
+    watermark: "",
     // Set the title of the site, this will be displayed in the browser tab
     // pageName | siteName
     siteName: "HSI",
@@ -98,7 +100,7 @@ const config = {
     debug: false,
     allowSingleSignOn: false,
 	disableRegularLogin: false,
-    guestLogin: false,
+    guestLogin: true,
     accountManagement: {
 		// uses guestAlias, but can be set to a different alias by uncommenting the following line
 		// guestAlias: "Guest",
@@ -208,3 +210,4 @@ const config = {
         inputRadius: "0",
     }
 };
+
