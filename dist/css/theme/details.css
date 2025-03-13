@@ -311,7 +311,7 @@ button.action-transition {
 	display: inline-flex;
 	font-size: 1.5em;
 	background: rgba(0, 0, 0, 0.05);
-	color: rgba(0, 0, 0, 0.3);
+	color: #fff;
 	padding: 0.75em 1em;
 	margin: 0.5em 0 1.5em;
 	border-radius: 0.5em;

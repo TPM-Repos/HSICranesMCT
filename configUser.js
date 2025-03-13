@@ -1,10 +1,10 @@
-// Version 1.2.9
+// Version 1.3.1
 
 const config = {
-    version: "1.2.9",
+    version: "1.3.1",
     // the full path the site running the DriveWorks Live API
     // serverUrl: "https://dw21api.yourdomain.com",
-    serverUrl: "https://dw21api.hsicrane.com",
+    serverUrl: "https://22.dwapi.hsicrane.com",
     // The default alias for the DriveWorks Group
     // This is a custom string that must match the name in the ConfigUser.xml file
     groupAlias: "development",
@@ -14,15 +14,22 @@ const config = {
     // Disable the ping by setting to 0
     specificationPingInterval: 0,
     // (Optional) Enter custom redirect URLs for login/logout and Project/DriveApp close/cancel
-    folder: "dev",
+    folder: "",
     login: {
         redirectUrl: "projects.html",
+        // set this if you want to redirect guest users to a different page
+		redirectGuestUrl: "projects.html",
         // Set this to left, center, or right to position the login form on the page
         columnLocation: "center",
     },
     logout: {
         redirectUrl: "index.html",
     },
+    history: {
+		specLimitOnPage: 10,
+		dateOrder: "desc",
+		showRunningSpecs: false,
+	},
     project: {
         redirectOnClose: "details.html",
         redirectOnCancel: "projects.html",
@@ -39,6 +46,17 @@ const config = {
             styles: false,
         },
     },
+    projects: {
+        toHide: [],
+        toAdd: [
+            { 
+                alias: "700 Series",
+                description: "",
+                image: "dist/img/logos/HSI-LOGO-WHITE.webp",
+                link: "run.html?project=JibCranes&DWMacroQuickLaunch=700Series",
+            },
+        ],
+    },
     // (Optional) Configure 'Details' view
     details: {
         updateInterval: 5, // Interval to refresh content - in seconds
@@ -51,7 +69,7 @@ const config = {
         defaultGroupAlias: "developmentGuest",
         defaultProjectName: "",
         autoLogin: true,
-        requireNewSession: true,
+        requireNewSession: false,
         requireExactAlias: false,
     },
     copyright: {
@@ -79,15 +97,18 @@ const config = {
     // Whether to show debugging information in the console
     debug: false,
     allowSingleSignOn: false,
-    guestLogin: {
-		enabled: true,
-		alias: "developmentGuest",
-	},
+	disableRegularLogin: false,
+    guestLogin: false,
     accountManagement: {
-		createAccount: "query?alias=developmentGuest&run=AccountManagement&DWMacroNavigate=CreateAccount",
-		forgotPassword: "query?alias=developmentGuest&run=AccountManagement&DWMacroNavigate=ForgotPassword",
-		resetPassword:
-			"query?alias=development&run=AccountManagement&DWMacroNavigate=ResetPassword",
+		// uses guestAlias, but can be set to a different alias by uncommenting the following line
+		// guestAlias: "Guest",
+		projectName: "AccountManagement",
+		// these three options can be true, false, or a string
+			// if a string is provided it will be the entire URL for example: "query?alias=development&run=AccountManagement&DWMacroNavigate=ResetPassword"
+			// only set the string if you are not using the TPM Account Management project
+		createAccount: true,
+		forgotPassword: true,
+		resetPassword: true,
 	},
     sidebarLinks: [
         {
@@ -104,12 +125,7 @@ const config = {
             title: "Your Quotes",
             icon: "history",
             href: "history.html",
-        },
-        {
-            title: "Reset Password",
-            icon: "reset",
-            href: "query?run=AccountManagement&DWMacroNavigate=ResetPassword",
-        },
+        }
     ],
     images: {
         // You may use a different (or same) company logo for the login and sidebar
@@ -172,10 +188,15 @@ const config = {
         loginForm: {
             background: "#161616",
             padding: "1em",
+			textColor: "black",
         },
         button: {
             radius: "0",
             color: "#FCCC0E",
+            textColor: "white",
+			colorHover: "#ffe00f",
+			textColorHover: "white",
+			border: "none",
         },
         logo: {
             width: "438px"

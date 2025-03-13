@@ -19,8 +19,14 @@ async function startPageFunctions() {
 		setCustomClientErrorHandler()
 
 		// Get Projects
-		const projects = await client.getProjects(GROUP_ALIAS)
+		let projects = await client.getProjects(GROUP_ALIAS)
 		clearTimeout(loadingTimeout)
+
+		// Remove hidden projects
+		projects = projects.filter(project => !config.projects.toHide.includes(project.alias))
+
+		// Add custom projects
+		projects.push(...config.projects.toAdd)
 
 		// (Optional) Order Projects alphabetically by alias
 		const orderedProjects = sortProjectsByAlias(projects)
@@ -57,10 +63,9 @@ function renderProjects(projects) {
 		const project = projects[index]
 		const name = project.alias || project.name
 		const description = project.description
-		let imagePath = project.absoluteImagePath
-		if (!imagePath) {
-			imagePath = "dist/img/placeholder.png"
-		}
+		let imagePath = null
+		// if the project doesn't have an id, it's a custom project. Default to placeholder if no image is provided
+		imagePath = (project.id ? project.absoluteImagePath : project.image) ?? "dist/img/placeholder.png"
 
 		const markup = `
             <div class="inner">
@@ -82,7 +87,8 @@ function renderProjects(projects) {
 		item.style.setProperty("--index", index)
 		item.setAttribute("data-id", project.id)
 		item.setAttribute("data-name", project.name)
-		item.href = `run.html?project=${project.name}`
+		// if the project doesn't have an id, it's a custom project. Use the link provided instead
+		item.href = project.id ? `run.html?project=${project.name}` : project.link
 		item.title = "Create Specification: " + name
 		item.innerHTML = markup
 

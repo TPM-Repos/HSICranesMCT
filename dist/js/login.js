@@ -30,9 +30,9 @@ const privateErrorMessage = "Please use a non-private window."
 // DriveWorks Live Client
 let client;
 
-	/**
-	 * On page load.
-	 */
+/**
+ * On page load.
+*/
 (async function () {
 	// Check localStorage support (show warning if not e.g. <= iOS 10 Private Window)
 	if (!localStorageSupported()) {
@@ -40,7 +40,7 @@ let client;
 		loginError(privateErrorMessage)
 		return
 	}
-
+	
 	setUsernameType()
 	setLoginCover()
 	addCarouselImages()
@@ -65,10 +65,7 @@ let client;
 
 	if (forgotLink) {
 		if (config.accountManagement.forgotPassword) {
-			href = window.location.origin
-		if(config.folder) href += `/${config.folder}/`
-		href += config.accountManagement.forgotPassword
-			forgotLink.href = href
+			forgotLink.href = config.accountManagement.forgotPassword
 			forgotLink.classList.remove("hidden")
 		}
 	}
@@ -193,10 +190,7 @@ function handleLoginSSO() {
 }
 
 function createAccount() {
-	href = window.location.origin
-		if(config.folder) href += `/${config.folder}/`
-		href += config.accountManagement.createAccount
-	window.location.href = href
+	window.location.href = config.accountManagement.createAccount
 }
 
 function removeSkeleton() {
@@ -341,7 +335,7 @@ async function checkExistingLogin() {
 		await client.getProjects(storedGroupAlias, "$top=1")
 
 		// Redirect to initial location
-		window.location.replace(config.folder + LOGIN_REDIRECT_URL)
+		window.location.replace(LOGIN_REDIRECT_URL)
 	} catch (error) {
 		handleGenericError(error)
 	}

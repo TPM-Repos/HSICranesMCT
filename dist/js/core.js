@@ -110,17 +110,15 @@ function redirectToLogin(notice, state, noReturnUrl) {
 
 	// Redirect to login
 	if (noReturnUrl || !config.loginReturnUrls) {
-		window.location.replace(config.folder + "/index.html")
+		window.location.replace("index.html")
 		return
 	}
 
 	// Redirect to login, with return url to restore position
 	const currentLocation = window.location.pathname + window.location.search
-	window.location.replace(config.folder + 
-		`index.html?returnUrl=${encodeURIComponent(
-			currentLocation.substring(1),
-		)}`,
-	)
+	const redirectUrl = `index.html?returnUrl=${encodeURIComponent(currentLocation.substring(1))}`
+
+	window.location.replace(redirectUrl)
 }
 
 /**
@@ -383,13 +381,9 @@ function passwordReset() {
 	if (!passwordResetLink) {
 		return
 	}
-	if (!config.accountManagement.allowChangePassword) {
+	if (!config.accountManagement.resetPassword) {
 		passwordResetLink.style.display = "none"
 	} else {
-		href = window.location.origin
-		if(config.folder) href += `/${config.folder}/`
-		href += config.accountManagement.resetPassword
-		passwordResetLink.href = href
+		passwordResetLink.href = config.accountManagement.resetPassword
 	}
 }
-
