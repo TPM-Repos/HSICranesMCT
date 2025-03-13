@@ -7,8 +7,7 @@ const config = {
     serverUrl: "https://22.dwapi.hsicrane.com",
     // The default alias for the DriveWorks Group
     // This is a custom string that must match the name in the ConfigUser.xml file
-    groupAlias: "production",
-    guestAlias: "productionGuest",
+    groupAlias: "event",
     // (Optional) Configure ping & update intervals - in seconds
     // A Specification will timeout after a configured period of inactivity (see DriveWorksConfigUser.xml).
     // This function prevents a Specification timing out as long as the page is in view.
@@ -86,7 +85,7 @@ const config = {
     // pageName | siteName
     siteName: "HSI",
     usernameType: "Email Address",
-    loginReturnUrls: true, // Toggle appending return urls to restore the previous location when redirected to the login form
+    loginReturnUrls: false, // Toggle appending return urls to restore the previous location when redirected to the login form
     locale: "en-US", // Set the default locale for displaying dates and numbers
     dateFormat: {
         month: 'long',
@@ -100,7 +99,7 @@ const config = {
     debug: false,
     allowSingleSignOn: false,
 	disableRegularLogin: false,
-    guestLogin: true,
+    guestLogin: false,
     accountManagement: {
 		// uses guestAlias, but can be set to a different alias by uncommenting the following line
 		// guestAlias: "Guest",
@@ -108,9 +107,9 @@ const config = {
 		// these three options can be true, false, or a string
 			// if a string is provided it will be the entire URL for example: "query?alias=development&run=AccountManagement&DWMacroNavigate=ResetPassword"
 			// only set the string if you are not using the TPM Account Management project
-		createAccount: true,
-		forgotPassword: true,
-		resetPassword: true,
+		createAccount: false,
+		forgotPassword: false,
+		resetPassword: false,
 	},
     sidebarLinks: [
         {

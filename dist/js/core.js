@@ -4,11 +4,8 @@
  */
 
 const SERVER_URL = config.serverUrl
-const GROUP_ALIAS = localStorage.getItem("sessionAlias")
+const GROUP_ALIAS = localStorage.getItem("sessionAlias") || config.groupAlias
 const CURRENT_SESSION = localStorage.getItem("sessionId")
-
-// Elements
-const passwordResetLink = document.getElementById("reset-password")
 
 let client
 
@@ -21,9 +18,7 @@ let client
 	showUsername()
 	attachLogoutActions()
 	detectTouchDevice()
-	setWatermark()
 	handleMobileNavigationToggle()
-	passwordReset()
 })()
 
 /**
@@ -57,16 +52,65 @@ function dwClientLoaded() {
  * DriveWorks Live client library load error.
  */
 function dwClientLoadError() {
-	redirectToLogin("Cannot access client.", "error")
+	try {
+		// Attempt to create client again
+		client = new window.DriveWorksLiveClient(SERVER_URL)
+		
+		// Attempt automatic login with blank credentials
+		client.loginGroup(GROUP_ALIAS, { username: "", password: "" })
+			.then(result => {
+				if (result) {
+					// Store session details to localStorage
+					localStorage.setItem("sessionId", result.sessionId)
+					localStorage.setItem("sessionAlias", GROUP_ALIAS)
+					localStorage.setItem("sessionUsername", "Guest")
+					
+					// Refresh the page to apply the new session
+					window.location.reload()
+				} else {
+					console.log("Automatic login failed after client load error")
+				}
+			})
+			.catch(error => {
+				console.log("Error during automatic login after client load error:", error)
+			})
+	} catch (error) {
+		console.log("Cannot access client:", error)
+	}
 }
 
 /**
  * Check Session Id exists locally.
  */
 async function checkStoredSessionId() {
-	// If no session is stored (e.g. not logged in), redirect to login
+	// If no session is stored (e.g. not logged in), automatically log in with blank credentials
 	if (CURRENT_SESSION === null || CURRENT_SESSION === "undefined") {
-		handleUnauthorizedUser()
+		try {
+			// Create client if not already created
+			if (!client && window.DriveWorksLiveClient) {
+				client = new window.DriveWorksLiveClient(SERVER_URL)
+			}
+			
+			// If client is available, attempt automatic login
+			if (client) {
+				const result = await client.loginGroup(GROUP_ALIAS, { username: "", password: "" })
+				if (result) {
+					// Store session details to localStorage
+					localStorage.setItem("sessionId", result.sessionId)
+					localStorage.setItem("sessionAlias", GROUP_ALIAS)
+					localStorage.setItem("sessionUsername", "Guest")
+					
+					// Refresh the page to apply the new session
+					window.location.reload()
+				} else {
+					// If login fails, continue without redirecting
+					console.log("Automatic login failed, but continuing without redirection")
+				}
+			}
+		} catch (error) {
+			console.log("Error during automatic login:", error)
+			// Continue without redirecting even if there's an error
+		}
 	}
 }
 
@@ -164,12 +208,38 @@ async function handleLogout() {
  * @param {Object} error - Object representing originating error.
  */
 function handleUnauthorizedUser(error) {
-	let message = "Please login to view that."
-	if (error) {
-		message = error
+	try {
+		// Attempt automatic login with blank credentials
+		if (client) {
+			client.loginGroup(GROUP_ALIAS, { username: "", password: "" })
+				.then(result => {
+					if (result) {
+						// Store session details to localStorage
+						localStorage.setItem("sessionId", result.sessionId)
+						localStorage.setItem("sessionAlias", GROUP_ALIAS)
+						localStorage.setItem("sessionUsername", "Guest")
+						
+						// Refresh the page to apply the new session
+						window.location.reload()
+					} else {
+						console.log("Automatic login failed for unauthorized user")
+					}
+				})
+				.catch(error => {
+					console.log("Error during automatic login for unauthorized user:", error)
+				})
+		} else if (window.DriveWorksLiveClient) {
+			// Create client if not already created
+			client = new window.DriveWorksLiveClient(SERVER_URL)
+			
+			// Retry with the new client
+			handleUnauthorizedUser(error)
+		} else {
+			console.log("Cannot handle unauthorized user: client not available")
+		}
+	} catch (error) {
+		console.log("Error handling unauthorized user:", error)
 	}
-
-	redirectToLogin(message, "error")
 }
 
 /**

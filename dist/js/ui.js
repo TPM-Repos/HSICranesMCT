@@ -11,15 +11,8 @@ const rs = document.querySelector(":root").style
  * Run on page load.
  */
 ;(() => {
-	console.log("This site is running Modified Corporate Theme from TPM")
-	console.log(
-		"You can learn more here: https://github.com/TPM-Repos/ModifiedCorporateTheme",
-	)
-	console.log("Version: " + config.version)
-
 	setTitle()
 	setLogo()
-	setWatermark()
 	setStyles(config.styles)
 })()
 
@@ -30,29 +23,6 @@ function setTitle() {
 
 	const title = document.querySelector("title")
 	title.innerText += " | " + config.siteName
-}
-
-function setWatermark() {
-	if (!config.watermark) {
-		return
-	}
-
-	let contentInner
-
-	if (isLoginPage) {
-		contentInner = document.querySelector(".login-form")
-	} else {
-		contentInner = document.querySelector(".content-inner")
-	}
-
-	const watermark = document.createElement("div")
-	watermark.classList.add("watermark")
-	// if the page is run.html, add a class to the watermark
-	if (window.location.pathname.includes("run.html")) {
-		watermark.classList.add("sideways")
-	}
-	watermark.innerHTML = config.watermark
-	contentInner.append(watermark)
 }
 
 function setLogo() {
