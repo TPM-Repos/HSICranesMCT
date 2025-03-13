@@ -53,7 +53,18 @@ function dwClientLoaded() {
  */
 function dwClientLoadError() {
 	try {
-		// Attempt to create client again
+		// Try to use login function from login.js if it exists
+		if (typeof login === 'function') {
+			try {
+				login("default");
+				return;
+			} catch (loginError) {
+				console.log("Error calling login function:", loginError);
+				// Continue with fallback login method
+			}
+		}
+		
+		// Fallback: Attempt to create client again
 		client = new window.DriveWorksLiveClient(SERVER_URL)
 		
 		// Attempt automatic login with blank credentials
@@ -83,8 +94,20 @@ function dwClientLoadError() {
  * Check Session Id exists locally.
  */
 async function checkStoredSessionId() {
-	// If no session is stored (e.g. not logged in), automatically log in with blank credentials
+	// If no session is stored (e.g. not logged in), try to login
 	if (CURRENT_SESSION === null || CURRENT_SESSION === "undefined") {
+		// Try to use login function from login.js if it exists
+		if (typeof login === 'function') {
+			try {
+				login("default");
+				return;
+			} catch (error) {
+				console.log("Error calling login function:", error);
+				// Continue with fallback login method
+			}
+		}
+		
+		// Fallback to automatic login with blank credentials
 		try {
 			// Create client if not already created
 			if (!client && window.DriveWorksLiveClient) {
@@ -137,7 +160,7 @@ function setLoginNotice(text, state = "info") {
 }
 
 /**
- * Redirect to login screen.
+ * Call login function instead of redirecting to login screen.
  *
  * @param {string} notice - The text displayed to the user on the login screen.
  * @param {string} state - The type of message state (error/success/info).
@@ -152,17 +175,37 @@ function redirectToLogin(notice, state, noReturnUrl) {
 		setLoginNotice(notice, state)
 	}
 
-	// Redirect to login
-	if (noReturnUrl || !config.loginReturnUrls) {
-		window.location.replace("index.html")
-		return
+	// Call login function from login.js if it exists
+	if (typeof login === 'function') {
+		login("default");
+	} else {
+		// Fallback to automatic login with blank credentials
+		try {
+			if (!client && window.DriveWorksLiveClient) {
+				client = new window.DriveWorksLiveClient(SERVER_URL)
+			}
+			
+			if (client) {
+				client.loginGroup(GROUP_ALIAS, { username: "", password: "" })
+					.then(result => {
+						if (result) {
+							// Store session details to localStorage
+							localStorage.setItem("sessionId", result.sessionId)
+							localStorage.setItem("sessionAlias", GROUP_ALIAS)
+							localStorage.setItem("sessionUsername", "Guest")
+							
+							// Refresh the page to apply the new session
+							window.location.reload()
+						}
+					})
+					.catch(error => {
+						console.log("Error during automatic login:", error)
+					})
+			}
+		} catch (error) {
+			console.log("Error during automatic login:", error)
+		}
 	}
-
-	// Redirect to login, with return url to restore position
-	const currentLocation = window.location.pathname + window.location.search
-	const redirectUrl = `index.html?returnUrl=${encodeURIComponent(currentLocation.substring(1))}`
-
-	window.location.replace(redirectUrl)
 }
 
 /**
@@ -209,7 +252,18 @@ async function handleLogout() {
  */
 function handleUnauthorizedUser(error) {
 	try {
-		// Attempt automatic login with blank credentials
+		// Try to use login function from login.js if it exists
+		if (typeof login === 'function') {
+			try {
+				login("default");
+				return;
+			} catch (loginError) {
+				console.log("Error calling login function:", loginError);
+				// Continue with fallback login method
+			}
+		}
+		
+		// Fallback to automatic login with blank credentials
 		if (client) {
 			client.loginGroup(GROUP_ALIAS, { username: "", password: "" })
 				.then(result => {
