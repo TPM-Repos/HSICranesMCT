@@ -17,7 +17,7 @@ version: "1.2.9",
 	// (Optional) Enter custom redirect URLs for login/logout and Project/DriveApp close/cancel
 	folder: "",
 	login: {
-		redirectUrl: "projects.html",
+		redirectUrl: "index.html",
 		// Set this to left, center, or right to position the login form on the page
 		columnLocation: "right",
 	},
@@ -27,7 +27,7 @@ version: "1.2.9",
 	project: {
 		// you may put "logout" instead of a page location
 		redirectOnClose: "details.html",
-		redirectOnCancel: "projects.html",
+		redirectOnCancel: "index.html",
 	},
 	driveApp: {
 		// you may put "logout" instead of a page location
@@ -98,7 +98,7 @@ version: "1.2.9",
 		{
 			title: "Projects",
 			icon: "projects",
-			href: "projects.html",
+			href: "index.html",
 		},
 		// {
 		// 	title: "DriveApps",

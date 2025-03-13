@@ -7,13 +7,13 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 		
 		<!-- PWA Meta Tags -->
-		<meta name="theme-color" content="#ffffff"/>
+		<meta name="theme-color" content="#FCCC0E"/>
 		<meta name="description" content="HSI Cranes Machine Configuration Tool"/>
 		<meta name="apple-mobile-web-app-capable" content="yes"/>
 		<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 		<meta name="apple-mobile-web-app-title" content="HSI MCT"/>
 		
-		<title>Login</title>
+		<title>Products</title>
 
 		<!-- PWA Assets -->
 		<link rel="manifest" href="site.webmanifest"/>
@@ -23,8 +23,10 @@
 		<script src="dist/js/pwa.js" defer></script>
 		<script src="dist/js/loadClient.js" defer></script>
 		<script src="configUser.js" defer onload="loadClient()"></script>
-		<script src="dist/js/login.js" defer></script>
+		<script src="dist/js/sidebar.js" defer></script>
 		<script src="dist/js/ui.js" defer></script>
+		<script src="dist/js/core.js" defer></script>
+		<script src="dist/js/projects.js" defer></script>
 
 		<!-- Core Styles -->
 		<link rel="stylesheet" type="text/css" href="dist/css/core.css" />
@@ -38,8 +40,9 @@
 		<link
 			rel="stylesheet"
 			type="text/css"
-			href="dist/css/theme/login.css"
+			href="dist/css/theme/projects.css"
 		/>
+
 		<link
 			rel="stylesheet"
 			type="text/css"
@@ -54,100 +57,89 @@
 		<link rel="icon" href="favicon.ico" />
 	</head>
 
-	<body class="template-login">
-		<div class="login-container">
-			<form id="login-form" class="login-form" onsubmit="return false;">
-				<div class="login-logo">
-					<img id="logo" />
-				</div>
+	<body class="template-projects has-navigation">
+		<main class="content-wrap">
+			<aside class="content-nav">
+				<div class="logo-wrap">
+					<a href="projects.html" class="logo">
+						<img id="logo" />
+					</a>
 
-				<h1 class="login-title">Welcome to Quotinator 2.0!</h1>
-				<p class="login-information">
-					New to Quotinator: Click Create Account to get started. <br> Returning users: Use your email and original password to login. <br> Forgot your password: Click 'Forgot Password' link to reset.
-				</p>
-
-				<div id="login-notice" class="login-notice"></div>
-
-				<div class="login-details">
-					<label for="login-username" id="username-label">
-						Username
-					</label>
-					<input
-						type="text"
-						id="login-username"
-						autocomplete="username"
-						value=""
-						autofocus
-					/>
-
-					<label for="login-password"> Password </label>
-					<div class="password-input">
-						<input
-							type="password"
-							id="login-password"
-							autocomplete="current-password"
-							value=""
-						/>
-
-						<button
-							type="button"
-							id="password-toggle"
-							class="password-toggle"
-						>
-							<svg class="icon">
-								<use xlink:href="dist/icons.svg#eye-open" />
-							</svg>
-							Show
-						</button>
-					</div>
-
-					<a id="forgot-link" class="hidden"> Forgot Password? </a>
-
-					<button
-						type="submit"
-						id="login-button"
-						class="login-button skeleton-block"
-						disabled
-					>
-						Login
+					<button id="nav-toggle" class="nav-toggle" title="Menu">
 						<svg class="icon">
-							<use xlink:href="dist/icons.svg#loading" />
+							<use xlink:href="dist/icons.svg#menu" />
+							<title>Menu</title>
 						</svg>
 					</button>
-
-					<button
-						type="button"
-						id="login-sso-button"
-						class="login-button skeleton-block hidden"
-						disabled
-					>
-						Login with SSO
-					</button>
-					<button
-						type="button"
-						id="login-guest-button"
-						class="login-button hidden"
-						disabled
-					>
-						Login as Guest
-					</button>
-
-					<div class="login-divider hidden">or</div>
-
-					<button
-						type="button"
-						id="create-account-button"
-						class="login-button hidden"
-						disabled
-					>
-						Create Account
-					</button>
 				</div>
 
-				<div class="login-copyright">HSI Crane, Inc. - 2024</div>
-			</form>
+				<nav id="nav-list">
+					<ul>
+						<li class="logout-list">
+							<button
+								type="button"
+								id="logout-nav"
+								class="logout-button"
+							>
+								Log out
+							</button>
+						</li>
+					</ul>
+				</nav>
 
-			<div class="login-cover"></div>
-		</div>
+				<div class="user-actions">
+					<div id="active-username" class="active-username">
+						<svg class="icon">
+							<use xlink:href="dist/icons.svg#user" />
+						</svg>
+						<span class="username"></span>
+					</div>
+					<a id="reset-password">Reset Password</a>
+					<button
+						type="button"
+						id="logout-button"
+						class="logout-button"
+					>
+						Log out
+					</button>
+				</div>
+			</aside>
+
+			<section class="content-inner">
+				<div class="project-inner">
+					<div class="section-title">
+						<h1>Select product type</h1>
+					</div>
+
+					<div
+						id="project-list"
+						class="project-list"
+						style="opacity: 0"
+					>
+						<div class="project-item skeleton-item">
+							<div class="skeleton-block"></div>
+						</div>
+						<div class="project-item skeleton-item">
+							<div class="skeleton-block"></div>
+						</div>
+						<div class="project-item skeleton-item">
+							<div class="skeleton-block"></div>
+						</div>
+						<div class="project-item skeleton-item">
+							<div class="skeleton-block"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<button
+				type="button"
+				id="nav-close"
+				class="nav-overlay"
+				title="Close Menu"
+			>
+				Close Menu
+			</button>
+		</main>
 	</body>
 </html>

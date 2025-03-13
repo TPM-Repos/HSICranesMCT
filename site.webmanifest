@@ -21,7 +21,7 @@
   "shortcuts": [
     {
       "name": "Products",
-      "url": "./projects.html",
+      "url": "./index.html",
       "description": "View all products",
       "icons": [{ "src": "dist/icons.svg#projects", "sizes": "any" }]
     },

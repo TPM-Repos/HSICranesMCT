@@ -17,9 +17,9 @@ const config = {
     // (Optional) Enter custom redirect URLs for login/logout and Project/DriveApp close/cancel
     folder: "",
     login: {
-        redirectUrl: "projects.html",
+        redirectUrl: "index.html",
         // set this if you want to redirect guest users to a different page
-		redirectGuestUrl: "projects.html",
+  redirectGuestUrl: "index.html",
         // Set this to left, center, or right to position the login form on the page
         columnLocation: "center",
     },
@@ -27,13 +27,13 @@ const config = {
         redirectUrl: "index.html",
     },
     history: {
-		specLimitOnPage: 10,
-		dateOrder: "desc",
-		showRunningSpecs: false,
-	},
+  specLimitOnPage: 10,
+  dateOrder: "desc",
+  showRunningSpecs: false,
+ },
     project: {
         redirectOnClose: "details.html",
-        redirectOnCancel: "projects.html",
+        redirectOnCancel: "index.html",
     },
     driveApp: {
         redirectOnClose: "details.html",
@@ -116,7 +116,7 @@ const config = {
         {
             title: "Products",
             icon: "projects",
-            href: "projects.html",
+            href: "index.html",
         },
         // {
         //     title: "DriveApps",

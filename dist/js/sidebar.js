@@ -7,9 +7,9 @@
  * @returns {HTMLElement} li The list item element
  */
 function sideBarListItem(title, icon, link) {
-	// Example: Projects, projects, projects.html
+	// Example: Projects, projects, index.html
 	/* <li>
-        <a href="projects.html">
+	       <a href="index.html">
             <svg class="icon">
                 <use xlink:href="dist/icons.svg#projects" />
             </svg>

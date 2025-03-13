@@ -118,8 +118,7 @@ async function dwClientLoaded() {
  */
 function startPageFunctions() {
 	try {
-		// Check if logged in, and redirect
-		checkExistingLogin()
+		login("default")
 	} catch (error) {
 		handleGenericError(error)
 	}

@@ -2,9 +2,7 @@ const CACHE_NAME = 'hsi-mct-v1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './projects.html',
   './history.html',
-  './drive-apps.html',
   './details.html',
   './run.html',
   './dist/css/core.css',
