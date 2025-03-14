@@ -56,7 +56,7 @@ let client;
 	}
 
 	if (loginGuest) {
-		if (config.guestLogin.enabled) {
+		if (config.guestLogin) {
 			loginGuest.addEventListener("click", handleGuestLogin)
 			loginGuest.classList.remove("hidden")
 			loginGuest.classList.add("skeleton-block")
@@ -155,8 +155,8 @@ async function login(type) {
 		} else if (type === "SSO") {
 			result = await client.loginSSO(GROUP_ALIAS)
 		} else if (type === "Guest") {
-			if (config.guestLogin.alias && config.guestLogin.alias !== "") {
-				GROUP_ALIAS = config.guestLogin.alias
+			if (config.guestLogin && config.guestLogin !== "") {
+				GROUP_ALIAS = config.guestAlias
 				console.log(GROUP_ALIAS)
 			}
 			inputUsername = "Guest"
@@ -506,3 +506,4 @@ function dwClientLoadError() {
 	loginError(clientErrorMessage)
 	removeSkeleton()
 }
+

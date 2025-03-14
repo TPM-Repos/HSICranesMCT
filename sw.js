@@ -1,18 +1,5 @@
-const CACHE_NAME = 'hsi-mct-v1';
+const CACHE_NAME = 'hsi-mct-v2';
 const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './projects.html',
-  './history.html',
-  './drive-apps.html',
-  './details.html',
-  './run.html',
-  './dist/css/core.css',
-  './dist/css/header.css',
-  './dist/css/reset.css',
-  './dist/js/core.js',
-  './dist/js/header.js',
-  './dist/js/ui.js',
   './dist/fonts/Inter/InterVariable.woff2',
   './dist/fonts/Roboto/RobotoFlex.woff2',
   './dist/img/HSI-Background.webp',
@@ -72,3 +59,4 @@ self.addEventListener('fetch', (event) => {
       })
   );
 });
+
