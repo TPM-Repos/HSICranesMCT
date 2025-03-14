@@ -1,10 +1,5 @@
-const CACHE_NAME = 'hsi-mct-v1';
+const CACHE_NAME = 'hsi-mct-v1-event';
 const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './history.html',
-  './details.html',
-  './run.html',
   './dist/css/core.css',
   './dist/css/header.css',
   './dist/css/reset.css',
@@ -30,14 +25,13 @@ self.addEventListener('install', (event) => {
 
 // Activate service worker and clean up old caches
 self.addEventListener('activate', (event) => {
+  // Clear all caches on activation to ensure fresh content
   event.waitUntil(
     caches.keys()
       .then((cacheNames) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
-            if (cacheName !== CACHE_NAME) {
-              return caches.delete(cacheName);
-            }
+            return caches.delete(cacheName);
           })
         );
       })
@@ -45,28 +39,35 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch assets from cache or network
+// Fetch assets from network first, fallback to cache
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then((response) => {
-        if (response) {
+        // Don't cache HTML files or API requests to ensure fresh content
+        const url = new URL(event.request.url);
+        const isHtmlRequest = event.request.url.endsWith('.html') || event.request.url.endsWith('/');
+        const isApiRequest = url.pathname.includes('/api/') ||
+                            url.hostname.includes('dwapi.hsicrane.com');
+        
+        if (isHtmlRequest || isApiRequest) {
           return response;
         }
-        return fetch(event.request)
-          .then((response) => {
-            // Don't cache responses that aren't successful
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            // Clone the response since it can only be consumed once
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-            return response;
-          });
+        
+        // Cache other successful responses
+        if (response && response.status === 200 && response.type === 'basic') {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME)
+            .then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+        }
+        return response;
+      })
+      .catch(() => {
+        // If network request fails, try to serve from cache
+        return caches.match(event.request);
       })
   );
 });
+

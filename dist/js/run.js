@@ -61,11 +61,56 @@ if (QUERY_DRIVE_APP_ALIAS) {
  * Start page functions.
  */
 function startPageFunctions() {
-	setCustomClientErrorHandler()
+	console.log("Starting run.js page functions");
+	
+	// Check if we have a valid session
+	if (!client || !client._sessionId) {
+		console.log("No valid session found in run view");
+		
+		// Try to login automatically
+		if (typeof login === 'function') {
+			try {
+				login("default");
+				// Wait for login to complete before continuing
+				setTimeout(checkSessionAndContinue, 1000);
+				return;
+			} catch (error) {
+				console.log("Error during automatic login:", error);
+			}
+		}
+		
+		// If login function not available or fails, show error
+		renderError("Session not found. Please return to the home page and try again.");
+		return;
+	}
+	
+	continueWithValidSession();
+}
+
+/**
+ * Check if session is valid after login attempt
+ */
+function checkSessionAndContinue() {
+	if (client && client._sessionId) {
+		console.log("Session established, continuing");
+		continueWithValidSession();
+	} else {
+		console.log("Failed to establish session");
+		renderError("Unable to establish session. Please return to the home page and try again.");
+	}
+}
+
+/**
+ * Continue with page functions once session is valid
+ */
+function continueWithValidSession() {
+	if (typeof setCustomClientErrorHandler === 'function') {
+		setCustomClientErrorHandler();
+	}
 
 	// Show confirmation dialog before logout
 	if (config.run.showWarningOnExit) {
-		enableLogoutConfirmation()
+		enableLogoutConfirmation();
 	}
 
 	// Detect required values
@@ -74,29 +119,37 @@ function startPageFunctions() {
 		!QUERY_PROJECT_NAME &&
 		!QUERY_DRIVE_APP_ALIAS
 	) {
-		renderError("Invalid Specification Id, Project name or DriveApp alias.")
-		return
+		console.log("Missing required query parameters");
+		renderError("Invalid Specification Id, Project name or DriveApp alias.");
+		return;
+	}
+
+	// Log which path we're taking
+	if (QUERY_SPECIFICATION_ID) {
+		console.log("Opening existing specification:", QUERY_SPECIFICATION_ID);
+	} else if (QUERY_PROJECT_NAME) {
+		console.log("Creating new specification for project:", QUERY_PROJECT_NAME);
+	} else if (QUERY_DRIVE_APP_ALIAS) {
+		console.log("Creating new DriveApp specification:", QUERY_DRIVE_APP_ALIAS);
 	}
 
 	// Existing Specification
 	if (QUERY_SPECIFICATION_ID) {
-		renderExistingSpecification()
-		return
+		renderExistingSpecification();
+		return;
 	}
 
 	// New Specification
 	if (QUERY_PROJECT_NAME) {
-		createSpecification()
-		return
+		createSpecification();
+		return;
 	}
 
 	// New DriveApp
 	if (QUERY_DRIVE_APP_ALIAS) {
-		createDriveAppSpecification()
-		return
+		createDriveAppSpecification();
+		return;
 	}
-
-	
 }
 
 /**
@@ -107,21 +160,35 @@ function startPageFunctions() {
  */
 function renderError(message, error = null) {
 	if (error) {
-		handleGenericError(error)
+		console.log("Error details:", error);
 	}
 
-	// Show visually error message
-	FORM_LOADING_STATE.innerHTML = `
-        <div class="run-error">
-            <h3>${message}</h3>
-            <p>Taking you back...</p>
-        </div>
-    `
+	// Check if FORM_LOADING_STATE exists
+	if (FORM_LOADING_STATE) {
+		try {
+			// Show visually error message
+			FORM_LOADING_STATE.innerHTML = `
+				<div class="run-error">
+					<h3>${message}</h3>
+					<p>Taking you back...</p>
+				</div>
+			`;
+		} catch (innerError) {
+			console.log("Error updating loading state:", innerError);
+		}
+	} else {
+		console.log("Form loading state element not found");
+	}
 
-	// Redirect to configured cancel location
+	// Redirect to index page after short delay
+	console.log("Redirecting to index page due to error:", message);
 	setTimeout(() => {
-		redirectOnSpecAction("cancel")
-	}, 2000)
+		try {
+			window.location.href = "index.html";
+		} catch (redirectError) {
+			console.log("Error during redirect:", redirectError);
+		}
+	}, 2000);
 }
 
 /**
@@ -130,22 +197,50 @@ function renderError(message, error = null) {
 async function createSpecification() {
 	const createError = "Error creating Specification."
 	setTabTitle(QUERY_PROJECT_NAME)
+	console.log("Creating new specification for project:", QUERY_PROJECT_NAME);
 
 	try {
+		// Check if we have a valid session
+		if (!client || !client._sessionId) {
+			console.log("No valid session found when creating specification");
+			handleUnauthorizedUser("No valid session found");
+			return;
+		}
+		
 		// Create new Specification
-		const specification = await client.createSpecification(
-			GROUP_ALIAS,
-			QUERY_PROJECT_NAME,
-		)
-
-		if (!specification.id) {
-			renderError(createError)
+		const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
+		console.log("Calling createSpecification API with group:", groupAlias);
+		let specification;
+		try {
+			specification = await client.createSpecification(
+				groupAlias,
+				QUERY_PROJECT_NAME,
+			);
+		} catch (createSpecError) {
+			console.log("Error from createSpecification API:", createSpecError);
+			
+			if (createSpecError.status === 401) {
+				handleUnauthorizedUser(createSpecError);
+				return;
+			}
+			
+			renderError(createError, createSpecError);
+			return;
 		}
 
+		if (!specification || !specification.id) {
+			console.log("No specification ID returned");
+			renderError(createError);
+			return;
+		}
+
+		console.log("Specification created successfully, ID:", specification.id);
+		
 		// Render
-		renderNewSpecification(specification)
+		renderNewSpecification(specification);
 	} catch (error) {
-		renderError(createError, error)
+		console.log("Unexpected error creating specification:", error);
+		renderError(createError, error);
 	}
 }
 
@@ -158,8 +253,9 @@ async function createDriveAppSpecification() {
 
 	try {
 		// Create new DriveApp Specification
+		const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
 		const driveAppSpecification = await client.runDriveApp(
-			GROUP_ALIAS,
+			groupAlias,
 			QUERY_DRIVE_APP_ALIAS,
 		)
 
@@ -235,73 +331,116 @@ async function renderNewSpecification(
 async function renderExistingSpecification() {
 	const existingError = "Error opening existing Specification."
 	setTabTitle(QUERY_SPECIFICATION_ID)
+	console.log("Rendering existing specification:", QUERY_SPECIFICATION_ID);
 
 	try {
+		// Check if we have a valid session
+		if (!client || !client._sessionId) {
+			console.log("No valid session found when rendering existing specification");
+			handleUnauthorizedUser("No valid session found");
+			return;
+		}
+		
 		// Validate Specification Id provided can be rendered.
-		const specificationToValidate = await client.getSpecificationById(
-			GROUP_ALIAS,
-			QUERY_SPECIFICATION_ID,
-		)
+		console.log("Validating specification can be rendered");
+		const groupAliasForValidation = localStorage.getItem("sessionAlias") || config.groupAlias;
+		let specificationToValidate;
+		try {
+			specificationToValidate = await client.getSpecificationById(
+				groupAliasForValidation,
+				QUERY_SPECIFICATION_ID,
+			);
+		} catch (validationError) {
+			console.log("Error validating specification:", validationError);
+			
+			if (validationError.status === 401) {
+				handleUnauthorizedUser(validationError);
+				return;
+			}
+			
+			renderError(existingError, validationError);
+			return;
+		}
+
+		if (!specificationToValidate) {
+			console.log("Specification not found");
+			renderError("Specification not found.");
+			return;
+		}
 
 		if (specificationToValidate.stateType !== 0) {
-			renderError("Specification is not running.")
-			return
+			console.log("Specification is not in running state:", specificationToValidate.stateType);
+			renderError("Specification is not running.");
+			return;
 		}
 
 		// Get existing Specification
+		console.log("Creating specification by ID");
+		const groupAliasForCreation = localStorage.getItem("sessionAlias") || config.groupAlias;
 		const specification = await client.createSpecificationById(
-			GROUP_ALIAS,
+			groupAliasForCreation,
 			QUERY_SPECIFICATION_ID,
-		)
+		);
 
-		rootSpecificationId = specification.id
-		activeSpecificationId = rootSpecificationId
+		rootSpecificationId = specification.id;
+		activeSpecificationId = rootSpecificationId;
+		console.log("Specification created, ID:", specification.id);
 
 		// Process Specification parameters from query (if supplied)
-		await processSpecificationQueryParameters()
+		await processSpecificationQueryParameters();
 
 		// Render Form markup
-		await specification.render(FORM_CONTAINER)
+		console.log("Rendering specification form");
+		await specification.render(FORM_CONTAINER);
 
 		// Clear loading state (with delay to hide re-layout)
-		removeLoadingState()
+		removeLoadingState();
 
 		// [OPTIONAL] Show warning dialog when exiting page after Form renders
-		attachPageUnloadDialog()
+		attachPageUnloadDialog();
 
 		// Set the default navigation state (open or closed)
-		setNavigationState()
+		setNavigationState();
 
 		// Register external Form navigation buttons
-		registerFormButtons(specification)
+		registerFormButtons(specification);
 
 		// Get Actions
-		renderSpecificationActions()
+		renderSpecificationActions();
 
 		// Register events
-		const formElement = specification.specificationFormElement
-		attachSpecificationEvents(formElement)
+		const formElement = specification.specificationFormElement;
+		attachSpecificationEvents(formElement);
 
 		specification.registerSpecificationClosedDelegate(() =>
 			existingSpecificationClosed(),
-		)
+		);
 		specification.registerSpecificationCancelledDelegate(() =>
 			existingSpecificationCancelled(),
-		)
+		);
 
 		// Start ping (keep Specification alive)
-		pingSpecification(specification)
+		pingSpecification(specification);
 
 		// attach logout to particular buttons
-		attachLogoutButtons()
+		attachLogoutButtons();
 
 		// [OPTIONAL] Show Specification Name in browser tab title
-		setTabTitleSpecificationName(specification)
+		setTabTitleSpecificationName(specification);
 
 		// [OPTIONAL] Load custom assets for this Project
-		loadCustomProjectAssets()
+		loadCustomProjectAssets();
+		
+		console.log("Existing specification rendered successfully");
 	} catch (error) {
-		renderError(existingError, error)
+		console.log("Error rendering existing specification:", error);
+		
+		if (error.status === 401) {
+			handleUnauthorizedUser(error);
+			return;
+		}
+		
+		renderError(existingError, error);
 	}
 }
 
@@ -361,8 +500,9 @@ async function loadCustomProjectAssets(project) {
 	if (project) {
 		projectName = project
 	} else {
+		const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
 		const specification = await client.getSpecificationById(
-			GROUP_ALIAS,
+			groupAlias,
 			rootSpecificationId,
 		)
 		projectName = specification.originalProjectName
@@ -433,8 +573,9 @@ async function loadCustomStyles(path) {
 async function setNavigationState(showNavigation = null) {
 	// If no state provided, query from server
 	if (showNavigation == null) {
+		const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
 		const formData = await client.getSpecificationFormData(
-			GROUP_ALIAS,
+			groupAlias,
 			rootSpecificationId,
 		)
 		showNavigation = formData.form.showStandardNavigation
@@ -459,8 +600,9 @@ function attachSpecificationEvents(formElement) {
 		disableSpecificationActions()
 
 		// Ensure we have the latest Specification Id
+		const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
 		const formData = await client.getSpecificationFormData(
-			GROUP_ALIAS,
+			groupAlias,
 			rootSpecificationId,
 		)
 		activeSpecificationId = formData.form.specificationId
@@ -476,10 +618,12 @@ async function cancelSpecification() {
 	if (activeSpecificationId === rootSpecificationId) {
 		// Cancel root Specification - with redirect.
 		detachPageUnloadDialog()
-
-		await client.cancelSpecification(GROUP_ALIAS, rootSpecificationId)
-	} else {
-		// Cancel active child Specification - no redirect.
+const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
+await client.cancelSpecification(groupAlias, rootSpecificationId)
+} else {
+// Cancel active child Specification - no redirect.
+const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
+await client.cancelSpecification(groupAlias, activeSpecificationId)
 		await client.cancelSpecification(GROUP_ALIAS, activeSpecificationId)
 	}
 }
@@ -516,8 +660,9 @@ function registerFormButtons(specification) {
  */
 async function renderSpecificationActions() {
 	// Get all Actions
+	const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
 	const actions = await client.getSpecificationActions(
-		GROUP_ALIAS,
+		groupAlias,
 		activeSpecificationId,
 	)
 
@@ -625,13 +770,14 @@ async function driveConstant(constant) {
 	const constantValue = constant.value
 
 	try {
+		const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
 		await client.getSpecificationConstantByName(
-			GROUP_ALIAS,
+			groupAlias,
 			activeSpecificationId,
 			constantName,
 		)
 		await client.updateConstantValue(
-			GROUP_ALIAS,
+			groupAlias,
 			activeSpecificationId,
 			constantName,
 			constantValue,
@@ -653,7 +799,8 @@ async function runMacro(macro) {
 	const macroArgument = macro.argument
 
 	try {
-		await client.runMacro(GROUP_ALIAS, activeSpecificationId, {
+		const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
+		await client.runMacro(groupAlias, activeSpecificationId, {
 			macroName: macroName,
 			macroArgument: macroArgument,
 		})
@@ -676,13 +823,14 @@ async function runMacro(macro) {
  */
 async function invokeOperation(operationName) {
 	try {
+		const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
 		await client.getSpecificationOperationByName(
-			GROUP_ALIAS,
+			groupAlias,
 			activeSpecificationId,
 			operationName,
 		)
 		await client.invokeOperation(
-			GROUP_ALIAS,
+			groupAlias,
 			activeSpecificationId,
 			operationName,
 		)
@@ -702,13 +850,14 @@ async function invokeTransition(transitionName) {
 		activeSpecificationId === rootSpecificationId
 
 	try {
+		const groupAlias = localStorage.getItem("sessionAlias") || config.groupAlias;
 		await client.getSpecificationTransitionByName(
-			GROUP_ALIAS,
+			groupAlias,
 			activeSpecificationId,
 			transitionName,
 		)
 		await client.invokeTransition(
-			GROUP_ALIAS,
+			groupAlias,
 			activeSpecificationId,
 			transitionName,
 		)
@@ -913,6 +1062,23 @@ function setTabTitle(text) {
 }
 
 /**
+ * Handle logout action
+ */
+async function handleLogout() {
+    try {
+        if (client) {
+            await client.logoutAllGroups();
+        }
+        // Redirect to index page
+        window.location.href = "index.html";
+    } catch (error) {
+        console.log("Error during logout:", error);
+        // Still redirect even if logout fails
+        window.location.href = "index.html";
+    }
+}
+
+/**
  * Display confirmation dialog before logout.
  */
 function enableLogoutConfirmation() {
@@ -1019,3 +1185,4 @@ function attachLogoutButtons() {
 		logoutButton.addEventListener("click", handleLogout)
 	}
 }
+

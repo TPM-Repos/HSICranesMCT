@@ -20,13 +20,22 @@
 		<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 
 		<!-- Scripts -->
-		<script src="dist/js/pwa.js" defer></script>
-		<script src="dist/js/loadClient.js" defer></script>
-		<script src="configUser.js" defer onload="loadClient()"></script>
-		<script src="dist/js/sidebar.js" defer></script>
-		<script src="dist/js/run.js" defer></script>
-		<script src="dist/js/ui.js" defer></script>
-		<script src="dist/js/core.js" defer></script>
+		<script src="configUser.js"></script>
+		<script src="dist/js/pwa.js"></script>
+		<script src="dist/js/loadClient.js"></script>
+		<script>
+			// Load client after config is available
+			document.addEventListener('DOMContentLoaded', function() {
+				if (typeof loadClient === 'function') {
+					loadClient();
+				}
+			});
+		</script>
+		<script src="dist/js/login.js"></script>
+		<script src="dist/js/core.js"></script>
+		<script src="dist/js/sidebar.js"></script>
+		<script src="dist/js/ui.js"></script>
+		<script src="dist/js/run.js"></script>
 
 		<!-- Core Styles -->
 		<link rel="stylesheet" type="text/css" href="dist/css/reset.css" />
@@ -204,7 +213,6 @@
 						</svg>
 						<span class="username"></span>
 					</div>
-					<a id="reset-password">Reset Password</a>
 					<button
 						type="button"
 						id="logout-button"
@@ -242,3 +250,4 @@
 		</main>
 	</body>
 </html>
+

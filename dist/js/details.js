@@ -118,44 +118,73 @@ function customErrorHandler(response) {
  */
 async function constructDetails() {
 	try {
+		// Check if we have a valid session
+		if (!client || !client._sessionId) {
+			console.log("No valid session found in details view");
+			if (firstRun) {
+				handleUnauthorizedUser("No valid session found");
+				return;
+			}
+		}
+		
+		// Check if we have a specification ID
+		if (!QUERY_SPECIFICATION_ID) {
+			console.log("No specification ID provided");
+			pageTitle.innerHTML = "No Specification Id provided.";
+			pageTitle.style.opacity = "";
+			return;
+		}
+		
+		console.log("Getting specification details for ID:", QUERY_SPECIFICATION_ID);
+		
 		// Get Specification details
 		const specification = await client.getSpecificationById(
 			GROUP_ALIAS,
 			QUERY_SPECIFICATION_ID,
-		)
+		);
 
 		// If Specification returns undefined, logout (no connection so no response)
 		// If no/an invalid Specification Id is provided, a text error message is returned.
 		if (!specification) {
+			console.log("No specification found");
 			// Logout if run on page load
 			if (firstRun) {
-				handleUnauthorizedUser("No connection found.")
-				return
+				handleUnauthorizedUser("No connection found.");
+				return;
 			}
 
-			handleNoConnection()
-			return
+			handleNoConnection();
+			return;
 		}
 
+		console.log("Specification details retrieved successfully");
+		
 		// Render available details
-		renderDetails(specification)
+		renderDetails(specification);
 
 		// Get attached data
-		getActions()
-		getProperties()
-		getDocuments()
+		getActions();
+		getProperties();
+		getDocuments();
 
 		// Update data after brief timeout (repeat indefinitely)
 		setTimeout(function () {
-			constructDetails()
-		}, DETAILS_UPDATE_INTERVAL)
+			constructDetails();
+		}, DETAILS_UPDATE_INTERVAL);
 
 		// Show add action
-		appendNewSpecificationAction(specification.originalProjectName)
+		appendNewSpecificationAction(specification.originalProjectName);
 
-		firstRun = false
+		firstRun = false;
 	} catch (error) {
-		handleGenericError(error)
+		console.log("Error constructing details:", error);
+		
+		if (error.status === 401) {
+			handleUnauthorizedUser(error);
+			return;
+		}
+		
+		handleGenericError(error);
 	}
 }
 
@@ -806,3 +835,4 @@ function showPageNotification(notice, showAction) {
 document
 	.getElementById("notification-action")
 	.addEventListener("click", redirectToLogin)
+

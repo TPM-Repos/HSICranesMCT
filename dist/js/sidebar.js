@@ -7,7 +7,7 @@
  * @returns {HTMLElement} li The list item element
  */
 function sideBarListItem(title, icon, link) {
-	// Example: Projects, projects, index.html
+	// Example: Products, projects, index.html
 	/* <li>
 	       <a href="index.html">
             <svg class="icon">
@@ -62,6 +62,56 @@ function sideBarList() {
 	return ul
 }
 
-const sidebar = document.querySelector("#nav-list ul")
-const logoutList = sidebar.innerHTML
-sidebar.innerHTML = sideBarList().outerHTML + logoutList
+// Create the sidebar navigation
+function createSidebar() {
+    try {
+        // Create the nav-list element if it doesn't exist
+        let navList = document.getElementById("nav-list");
+        if (!navList) {
+            navList = document.createElement("nav");
+            navList.id = "nav-list";
+            navList.className = "action-list";
+            
+            // Create a ul element for the logout button
+            const logoutUl = document.createElement("ul");
+            logoutUl.innerHTML = `
+                <li class="logout-list">
+                    <button type="button" id="logout-nav" class="logout-button">
+                        Log out
+                    </button>
+                </li>
+            `;
+            
+            // Add the sidebar links
+            navList.appendChild(sideBarList());
+            navList.appendChild(logoutUl);
+            
+            // Add the nav-list to the content-nav
+            const contentNav = document.querySelector(".content-nav");
+            if (contentNav) {
+                contentNav.insertBefore(navList, document.querySelector(".user-actions"));
+            }
+        } else {
+            // If nav-list exists, update its content
+            const sidebar = navList.querySelector("ul");
+            if (sidebar) {
+                const logoutList = sidebar.innerHTML;
+                sidebar.innerHTML = sideBarList().outerHTML + logoutList;
+            } else {
+                navList.appendChild(sideBarList());
+            }
+        }
+        
+        // Set the logo image
+        const logoImg = document.getElementById("logo");
+        if (logoImg && config.images && config.images.sidebar) {
+            logoImg.src = config.images.sidebar;
+        }
+    } catch (error) {
+        console.log("Error creating sidebar:", error);
+    }
+}
+
+// Initialize the sidebar when the DOM is loaded
+document.addEventListener("DOMContentLoaded", createSidebar);
+
