@@ -41,19 +41,10 @@ let client;
 		return
 	}
 	
-	setUsernameType()
 	setLoginCover()
 	addCarouselImages()
 
 	loginForm.addEventListener("submit", handleLoginForm)
-
-	if (loginSSOButton) {
-		if (config.allowSingleSignOn) {
-			loginSSOButton.addEventListener("click", handleLoginSSO)
-			loginSSOButton.classList.remove("hidden")
-			loginSSOButton.classList.add("skeleton-block")
-		}
-	}
 
 	if (loginGuest) {
 		if (config.guestLogin) {
@@ -63,25 +54,9 @@ let client;
 		}
 	}
 
-	if (forgotLink) {
-		if (config.accountManagement.forgotPassword) {
-			forgotLink.href = config.accountManagement.forgotPassword
-			forgotLink.classList.remove("hidden")
-		}
-	}
-
-	if (createAccountButton) {
-		if (config.accountManagement.createAccount) {
-			createAccountButton.addEventListener("click", createAccount)
-			createAccountButton.classList.remove("hidden")
-			loginDivider.classList.remove("hidden")
-			createAccountButton.classList.add("skeleton-block")
-		}
-	}
 	showLoginNotice()
 	setLoginColumnLocation()
 	setCopyright()
-	handlePasswordToggle()
 	// how long until timing out trying to connect?
 	await delay(5000)
 	removeSkeleton()
@@ -135,7 +110,7 @@ async function login(type) {
 
 	try {
 		// Show loading state, reset notice
-		loginButton.classList.add("is-loading")
+		// loginButton.classList.add("is-loading")
 		hideLoginNotice()
 
 		let result = null
@@ -194,18 +169,18 @@ function createAccount() {
 }
 
 function removeSkeleton() {
-	loginButton.classList.remove("skeleton-block")
-	loginSSOButton.classList.remove("skeleton-block")
+	// loginButton.classList.remove("skeleton-block")
+	// loginSSOButton.classList.remove("skeleton-block")
 	loginGuest.classList.remove("skeleton-block")
-	createAccountButton.classList.remove("skeleton-block")
+	// createAccountButton.classList.remove("skeleton-block")
 }
 
 function enableButtons() {
-	loginButton.disabled = false
-	loginSSOButton.disabled = false
+	// loginButton.disabled = false
+	// loginSSOButton.disabled = false
 	loginGuest.disabled = false
-	createAccountButton.disabled = false
-	createAccountButton.classList.add("pill")
+	// createAccountButton.disabled = false
+	// createAccountButton.classList.add("pill")
 }
 
 /**
@@ -247,7 +222,7 @@ function loginError(noticeText, error = null) {
 	}
 
 	// Remove loading state
-	loginButton.classList.remove("is-loading")
+	// loginButton.classList.remove("is-loading")
 
 	// Show client error
 	setLoginNotice(noticeText, "error")
@@ -422,7 +397,7 @@ function setLoginColumnLocation() {
 		loginContainer.style.justifyContent = "center"
 		loginContainer.style.backgroundImage = config.images.loginCover
 
-		loginCover.style.display = "none"
+		// loginCover.style.display = "none"
 
 		return
 	}
@@ -505,5 +480,15 @@ function setUsernameType() {
 function dwClientLoadError() {
 	loginError(clientErrorMessage)
 	removeSkeleton()
+}
+
+// function to disbale regular login
+function disableLogin() {
+	if(config.disableRegularLogin) {
+		//hide the username and password fields, and the login button
+		document.getElementById("login-username").style.display = "none"
+		document.getElementById("login-password").style.display = "none"
+		document.getElementById("login-button").style.display = "none"
+	}
 }
 

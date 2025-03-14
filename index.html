@@ -63,85 +63,30 @@
 
 				<h1 class="login-title">Welcome to Quotinator 2.0!</h1>
 				<p class="login-information">
-					New to Quotinator: Click Create Account to get started. <br> Returning users: Use your email and original password to login. <br> Forgot your password: Click 'Forgot Password' link to reset.
+					Click the button below to configure and quote your crane.
 				</p>
 
 				<div id="login-notice" class="login-notice"></div>
 
-				<div class="login-details">
-					<label for="login-username" id="username-label">
-						Username
-					</label>
-					<input
-						type="text"
-						id="login-username"
-						autocomplete="username"
-						value=""
-						autofocus
-					/>
-
-					<label for="login-password"> Password </label>
-					<div class="password-input">
-						<input
-							type="password"
-							id="login-password"
-							autocomplete="current-password"
-							value=""
-						/>
-
-						<button
-							type="button"
-							id="password-toggle"
-							class="password-toggle"
-						>
-							<svg class="icon">
-								<use xlink:href="dist/icons.svg#eye-open" />
-							</svg>
-							Show
-						</button>
-					</div>
-
-					<a id="forgot-link" class="hidden"> Forgot Password? </a>
-
-					<button
-						type="submit"
-						id="login-button"
-						class="login-button skeleton-block"
-						disabled
-					>
-						Login
-						<svg class="icon">
-							<use xlink:href="dist/icons.svg#loading" />
-						</svg>
-					</button>
-
-					<button
-						type="button"
-						id="login-sso-button"
-						class="login-button skeleton-block hidden"
-						disabled
-					>
-						Login with SSO
-					</button>
 					<button
 						type="button"
 						id="login-guest-button"
 						class="login-button hidden"
 						disabled
 					>
-						Login as Guest
+						Get Started
 					</button>
-
-					<div class="login-divider hidden">or</div>
-
-					<button
+					
+					<!-- PWA Cache Debug Button -->
+					<!-- <button
 						type="button"
-						id="create-account-button"
-						class="login-button hidden"
-						disabled
+						id="clear-cache-button"
+						class="login-button"
+						style="margin-top: 10px; background-color: #f44336;"
+						onclick="clearPWACache(); setTimeout(() => window.location.reload(true), 500);"
 					>
-						Create Account
-					</button>
+						Clear Cache & Refresh
+					</button> -->
 				</div>
 
 				<div class="login-copyright">HSI Crane, Inc. - 2024</div>

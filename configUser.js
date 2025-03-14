@@ -7,8 +7,8 @@ const config = {
     serverUrl: "https://22.dwapi.hsicrane.com",
     // The default alias for the DriveWorks Group
     // This is a custom string that must match the name in the ConfigUser.xml file
-    groupAlias: "production",
-    guestAlias: "productionGuest",
+    groupAlias: "event",
+    guestAlias: "event",
     // (Optional) Configure ping & update intervals - in seconds
     // A Specification will timeout after a configured period of inactivity (see DriveWorksConfigUser.xml).
     // This function prevents a Specification timing out as long as the page is in view.
@@ -99,7 +99,7 @@ const config = {
     // Whether to show debugging information in the console
     debug: false,
     allowSingleSignOn: false,
-	disableRegularLogin: false,
+	disableRegularLogin: true,
     guestLogin: true,
     accountManagement: {
 		// uses guestAlias, but can be set to a different alias by uncommenting the following line
@@ -108,9 +108,9 @@ const config = {
 		// these three options can be true, false, or a string
 			// if a string is provided it will be the entire URL for example: "query?alias=development&run=AccountManagement&DWMacroNavigate=ResetPassword"
 			// only set the string if you are not using the TPM Account Management project
-		createAccount: true,
-		forgotPassword: true,
-		resetPassword: true,
+		createAccount: false,
+		forgotPassword: false,
+		resetPassword: false,
 	},
     sidebarLinks: [
         {
